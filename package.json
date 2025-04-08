@@ -1,0 +1,41 @@
+{
+  "name": "@atul.dev/create-new-project",
+  "version": "1.0.0",
+  "description": "Advanced Express.js API generator with best practices and essential dependencies",
+  "main": "index.js",
+  "bin": {
+    "@atul.dev/create-new-project": "./index.js"
+  },
+  "keywords": [
+    "express",
+    "generator",
+    "boilerplate",
+    "scaffold",
+    "node",
+    "javascript",
+    "api",
+    "rest"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "boxen": "^5.1.2",
+    "figlet": "^1.7.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/create-express-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/create-express-app/issues"
+  },
+  "homepage": "https://github.com/yourusername/create-express-app#readme"
+}
