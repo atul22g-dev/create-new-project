@@ -3,7 +3,6 @@
  */
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
-import config from '../config/index.js';
 
 /**
  * Verify JWT token middleware
@@ -23,7 +22,7 @@ const authenticate = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     // Verify token
-    const decoded = jwt.verify(token, config.jwt.secret);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Add user info to request
     req.user = decoded;
@@ -43,30 +42,37 @@ const authenticate = (req, res, next) => {
 };
 
 /**
- * Check if user has required role
- * @param {String|Array} roles - Required role(s)
+ * Check if user has Admin role
  * @returns {Function} Middleware function
  */
-const authorize = (roles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return next(createError(401, 'Authentication required'));
-    }
+const authorize = (req, res, next) => {
+  if (!req.user) {
+    return next(createError(401, 'Authentication required'));
+  }
 
-    const userRoles = Array.isArray(req.user.roles) ? req.user.roles : [req.user.roles];
-    const requiredRoles = Array.isArray(roles) ? roles : [roles];
+  const userRoles = req.user.roles.includes('admin');
+  if(!userRoles){
+    return next(createError(403, 'Insufficient permissions'));
+  }
 
-    const hasRole = requiredRoles.some(role => userRoles.includes(role));
-
-    if (!hasRole) {
-      return next(createError(403, 'Insufficient permissions'));
-    }
-
-    next();
-  };
+  next();
 };
+
+/**
+ * Check if token in id
+ * @returns {Function} Middleware function
+ */
+const checkToken = (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(createError(401, 'Invalid token'));
+  }
+
+  next();
+};
+
 
 export {
   authenticate,
-  authorize
+  authorize,
+  checkToken
 };

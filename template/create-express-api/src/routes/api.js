@@ -2,8 +2,9 @@
  * API routes
  */
 import express from 'express';
-import { authenticate } from '../middleware/auth.js';
+import { authenticate, authorize, checkToken } from '../middleware/auth.js';
 import * as userController from '../controllers/userController.js';
+import { createUserValidation, loginValidation, registerValidation } from '../middleware/validators.js';
 
 const router = express.Router();
 
@@ -33,17 +34,19 @@ router.get('/', (req, res) => {
 /**
  * User routes
  */
-router.get('/users', authenticate, userController.getAllUsers);
-router.get('/users/:id', authenticate, userController.getUserById);
-router.post('/users', userController.createUser);
-router.put('/users/:id', authenticate, userController.updateUser);
-router.delete('/users/:id', authenticate, userController.deleteUser);
+router.get('/users', authenticate, authorize, userController.getAllUsers);
+router.get('/user/:id', authenticate, checkToken, userController.getUserById);
+router.post('/user', authenticate, authorize, createUserValidation, userController.createUser);
+router.put('/user/:id', authenticate, checkToken, userController.updateUser);
+router.delete('/user/:id', authenticate, checkToken, userController.deleteUser);
+router.delete('/user/', authenticate, authorize, userController.deleteUserByName); // Delete User by Name
 
 /**
  * Authentication routes
  */
-router.post('/auth/login', userController.login);
-router.post('/auth/register', userController.register);
-router.post('/auth/refresh-token', userController.refreshToken);
+router.post('/auth/login', loginValidation, userController.login);
+router.post('/auth/register', registerValidation, userController.register);
+router.get('/auth/profile', authenticate, userController.getUserData);
+router.get('/auth/refresh-token', userController.refreshToken);
 
 export default router;

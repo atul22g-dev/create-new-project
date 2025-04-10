@@ -1,12 +1,13 @@
 {
   "name": "@atul.dev/create-new-project",
   "version": "1.0.0",
-  "description": "Advanced Express.js API generator with best practices and essential dependencies",
+  "description": "A powerful CLI tool to generate production-ready projects with best practices and essential dependencies",
   "main": "index.js",
   "bin": {
     "@atul.dev/create-new-project": "./index.js"
   },
   "keywords": [
+    "project-generator",
     "express",
     "generator",
     "boilerplate",
@@ -14,7 +15,8 @@
     "node",
     "javascript",
     "api",
-    "rest"
+    "rest",
+    "cli"
   ],
   "author": "",
   "license": "ISC",
@@ -32,10 +34,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/create-express-app.git"
+    "url": "git+https://github.com/atual-dev/create-new-project.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/create-express-app/issues"
+    "url": "https://github.com/atual-dev/create-new-project/issues"
   },
-  "homepage": "https://github.com/yourusername/create-express-app#readme"
+  "homepage": "https://github.com/atual-dev/create-new-project#readme"
 }

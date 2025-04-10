@@ -29,27 +29,17 @@ const userSchema = new mongoose.Schema({
     default: ['user'],
     enum: ['user', 'admin']
   },
-  isActive: {
-    type: Boolean,
-    default: true
-  },
   lastLogin: {
     type: Date
   }
 }, {
-  timestamps: true,
-  toJSON: {
-    transform: (doc, ret) => {
-      delete ret.password;
-      return ret;
-    }
-  }
+  timestamps: true
 });
 
 /**
  * Hash password before saving
  */
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // Only hash the password if it's modified or new
   if (!this.isModified('password')) return next();
 
@@ -70,7 +60,7 @@ userSchema.pre('save', async function(next) {
  * @param {string} candidatePassword - Password to compare
  * @returns {Promise<boolean>} - True if passwords match
  */
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

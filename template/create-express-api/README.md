@@ -8,19 +8,17 @@ This is a robust Express.js application template with best practices and essenti
 - 🔒 Security with Helmet, CORS, and rate limiting
 - 📝 Request validation with express-validator
 - 🔑 Authentication with JWT
-- 📊 Logging with Winston
-- 🗄️ MongoDB integration with Mongoose
-- 🧪 Testing with Jest and Supertest
+- 🗄️  Mongoose
+- 🧪 Testing wiMongoDB integration withth Jest
 - 🔄 Hot reloading for development
-- 📏 Code linting with ESLint
-- 🌐 Environment configuration with dotenv
+- 🌐 Environment Configuration with dotenv
 
 ## Project Structure
 
 ```
 .
 ├── src/
-│   ├── config/         # Application configuration
+│   ├── Config/         # Application Configuration
 │   ├── controllers/    # Route controllers
 │   ├── middleware/     # Custom middleware
 │   ├── models/         # Database models
@@ -29,10 +27,11 @@ This is a robust Express.js application template with best practices and essenti
 │   ├── utils/          # Utility functions
 │   └── index.js        # Application entry point
 ├── tests/              # Test files
+│   ├── app.test.js   
+│   ├── jest.Config.js  
+│   └── package.json
 ├── .env.example        # Environment variables example
-├── .eslintrc.js        # ESLint configuration
 ├── .gitignore          # Git ignore file
-├── jest.config.js      # Jest configuration
 ├── package.json        # Project dependencies
 └── README.md           # Project documentation
 ```
@@ -74,8 +73,6 @@ yarn dev
 
 - `npm start` - Start the production server
 - `npm run dev` - Start the development server with hot reloading
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint errors
 - `npm test` - Run tests
 - `npm run test:watch` - Run tests in watch mode
 - `npm run test:coverage` - Run tests with coverage report
@@ -87,14 +84,92 @@ yarn dev
 - `GET /` - Welcome message
 - `GET /health` - Health check
 - `POST /api/auth/login` - User login
+Request Body:
+
+```json
+{
+  "email": "john@example.com",
+  "password": "Your@pa55word"
+}
+```
 - `POST /api/auth/register` - User registration
+Request Body:
 
-### Protected Routes (Require Authentication)
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Your@pa55word"
+}
+```
+- `GET /api/auth/profile` - Get user profile
+Request Headers:
 
+```json
+{
+  "Authorization": "Bearer <token>"
+}
+```
+- `GET /api/auth/refresh-token` - Refresh JWT token
+
+
+
+### Protected Routes (Require Authentication and Admin Role and Your Data)
+Request Headers:
+
+```json
+{
+  "Authorization": "Bearer <token>" // JWT token of Admin or User 
+}
+```
+
+- `Post /api/users` - Create users only Admin
+Request Body:
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Your@pa55word",
+  "roles": "admin" // admin or user
+}
+```
 - `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+- `GET /api/user/:id` - Get user by ID only Your Data
+Request Url:
+```
+http://localhost:3000/api/user/67f6db683faf24a4c0fe1a12
+```
+
+- `PUT /api/user/:id` - Update Data only Your Data 
+Request Url:
+```
+http://localhost:3000/api/user/67f6db683faf24a4c0fe1a12
+```
+
+Request Body:
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "Your@pa55word"
+}
+```
+- `DELETE /api/users/:id` - Delete user only Your Data
+Request Url:
+```
+http://localhost:3000/api/user/67f6db683faf24a4c0fe1a12
+```
+
+- `DELETE /api/users/` - Delete users by name only Admin
+Request Body:
+
+```json
+{
+  "name": "test0"
+}
+```
 
 ## License
 

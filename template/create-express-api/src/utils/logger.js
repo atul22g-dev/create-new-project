@@ -1,53 +1,28 @@
 /**
- * Logger utility using Winston
+ * Simple console logger
  */
-import winston from 'winston';
-import config from '../config/index.js';
 
-// Define log format
-const logFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.errors({ stack: true }),
-  winston.format.splat(),
-  winston.format.json()
-);
+// Get timestamp in format YYYY-MM-DD HH:mm:ss
+const getTimestamp = () => {
+  return new Date().toISOString().replace('T', ' ').substring(0, 19);
+};
 
-// Create logger instance
-const logger = winston.createLogger({
-  level: config.logging.level,
-  format: logFormat,
-  defaultMeta: { service: 'express-app' },
-  transports: [
-    // Write logs to console
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.printf(
-          ({ level, message, timestamp, ...meta }) =>
-            `${timestamp} ${level}: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`
-        )
-      )
-    })
-  ]
-});
-
-// Add file transport in production
-if (process.env.NODE_ENV === 'production') {
-  logger.add(
-    new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-      maxsize: 5242880, // 5MB
-      maxFiles: 5
-    })
-  );
-  logger.add(
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      maxsize: 5242880, // 5MB
-      maxFiles: 5
-    })
-  );
-}
+// Simple logger object with console methods
+const logger = {
+  error: (message, meta = {}) => {
+    console.error(`${getTimestamp()} ERROR: ${message}`, Object.keys(meta).length ? meta : '');
+  },
+  warn: (message, meta = {}) => {
+    console.warn(`${getTimestamp()} WARN: ${message}`, Object.keys(meta).length ? meta : '');
+  },
+  info: (message, meta = {}) => {
+    console.info(`${getTimestamp()} INFO: ${message}`, Object.keys(meta).length ? meta : '');
+  },
+  debug: (message, meta = {}) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug(`${getTimestamp()} DEBUG: ${message}`, Object.keys(meta).length ? meta : '');
+    }
+  }
+};
 
 export default logger;

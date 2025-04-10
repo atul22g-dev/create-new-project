@@ -1,8 +1,14 @@
-# Create New Project
+# Create New Project CLI Tool for Node.js Applications
 
-A powerful CLI tool to generate production-ready Creat with best practices and essential dependencies.
+A powerful CLI tool to generate production-ready projects with best practices and essential dependencies.
 
 ## Features
+
+### Currently Supported Project Types
+
+- **Express.js API**: A production-ready Express.js API with all the essentials
+
+### Express.js API Features
 
 - 🚀 Modern JavaScript (ES6+)
 - 🔒 Security with Helmet, CORS, and rate limiting
@@ -29,20 +35,17 @@ npm install -g @atul.dev/create-new-project
 npx @atul.dev/create-new-project
 ```
 
-<!-- ## Usage
+## Usage
 
 ```bash
-create-express
-``` -->
+npx @atul.dev/create-new-project
+```
 
 Follow the interactive prompts to configure your application:
 
 - Project name
 - Project description
-<!-- - Database selection -->
-<!-- - Authentication options -->
-<!-- - Additional features -->
-- Package manager preference
+- Package manager preference (npm or yarn)
 
 ## Project Structure
 
@@ -103,6 +106,18 @@ The generated application includes the following npm scripts:
 - eslint - Code linting
 - jest - Testing framework
 - supertest - HTTP testing
+
+## Roadmap
+
+Future plans for this project include adding support for more project types:
+
+- React.js applications
+- Vue.js applications
+- Next.js applications
+- Full-stack applications
+- And more!
+
+Feel free to contribute or suggest new project templates!
 
 ## License
 
