@@ -197,34 +197,41 @@ const refreshToken = async (req, res, next) => {
   try {
     // Get token from Authorization header
     const authHeader = req.headers.authorization;
-
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return next(createError(401, 'Authentication required'));
     }
 
+    // Extract refresh token from Authorization header
     const refreshToken = authHeader.split(' ')[1];
 
-
+    // Verify refresh token
     if (!refreshToken) {
       return next(createError(400, 'Refresh token is required'));
     }
 
-    jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) return next(createError(403, 'Invalid refresh token'));
+    // Decode refresh token
+    const decoded = jwt.decode(refreshToken);
+    if (!decoded) {
+      return next(createError(403, 'Invalid refresh token'));
+    }
 
-      const user = await User.findById(decoded.id);
-      if (!user) return next(createError(404, 'User not found'));
+    // Find user in database
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return next(createError(404, 'User not found'));
+    }
 
-      const accessToken = jwt.sign(
-        { id: user._id, name: user.name, email: user.email, roles: user.roles },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
-      );
+    // Generate new access token
+    const accessToken = jwt.sign(
+      { id: user._id, name: user.name, email: user.email, roles: user.roles },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
 
-      res.status(200).json({
-        success: true,
-        accessToken,
-      });
+
+    res.status(200).json({
+      success: true,
+      accessToken,
     });
   } catch (error) {
     next(error);
@@ -384,7 +391,7 @@ const deleteUserByName = async (req, res, next) => {
     // Success response
     res.json({
       status: 'success',
-      message: `${result.deletedCount} user(s) deleted successfully`
+      message: `user(s) deleted successfully`
     });
 
   } catch (error) {

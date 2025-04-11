@@ -123,7 +123,7 @@ Request Headers:
 }
 ```
 
-- `Post /api/users` - Create users only Admin
+- `Post /api/user` - Create users by Admin
 Request Body:
 
 ```json
@@ -156,7 +156,7 @@ Request Body:
   "password": "Your@pa55word"
 }
 ```
-- `DELETE /api/users/:id` - Delete user only Your Data
+- `DELETE /api/user/:id` - Delete user only Your Data
 Request Url:
 ```
 http://localhost:3000/api/user/67f6db683faf24a4c0fe1a12

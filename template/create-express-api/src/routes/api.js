@@ -39,7 +39,7 @@ router.get('/user/:id', authenticate, checkToken, userController.getUserById);
 router.post('/user', authenticate, authorize, createUserValidation, userController.createUser);
 router.put('/user/:id', authenticate, checkToken, userController.updateUser);
 router.delete('/user/:id', authenticate, checkToken, userController.deleteUser);
-router.delete('/user/', authenticate, authorize, userController.deleteUserByName); // Delete User by Name
+router.delete('/users/', authenticate, authorize, userController.deleteUserByName); // Delete User by Name
 
 /**
  * Authentication routes
